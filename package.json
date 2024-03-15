@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate && codegen",
+    "postinstall": "prisma generate && bun run codegen",
     "codegen": "bunx graphql-codegen --config ./src/graphql/codegen.ts"
   },
   "dependencies": {
