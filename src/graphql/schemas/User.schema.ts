@@ -16,11 +16,20 @@ export const userTypeDefs = gql`
     emailAddress: String!
   }
 
+  input UserUpdateInput {
+    id: String!
+    firstName: String
+    lastName: String
+    emailAddress: String
+    profilePicture: String
+  }
+
   type Query {
     getAllUsers: [User]!
   }
 
   type Mutation {
     createUser(input: UserCreateInput!): User!
+    updateUser(input: UserUpdateInput!): User!
   }
 `;
