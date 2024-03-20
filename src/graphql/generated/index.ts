@@ -38,6 +38,12 @@ export type MutationUpdateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   getAllUsers: Array<Maybe<User>>;
+  getUser: User;
+};
+
+
+export type QueryGetUserArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type User = {
@@ -136,6 +142,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -147,6 +154,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  ID: Scalars['ID']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -162,6 +170,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAllUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryGetUserArgs>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

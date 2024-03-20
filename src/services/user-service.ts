@@ -20,6 +20,15 @@ export const getUsers = async (): Promise<User[]> => {
   }
 };
 
+export const getUser = async (id: string): Promise<User | null> => {
+  try {
+    const result = await prisma.user.findUnique({ where: { id: id } });
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateUser = async (input: Prisma.UserUpdateInput & { id: string }): Promise<User> => {
   try {
     const result = await prisma.user.update({
