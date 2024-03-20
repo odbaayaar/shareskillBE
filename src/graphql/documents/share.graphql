@@ -11,3 +11,21 @@ query GetAllUsers {
     ...UserFields
   }
 }
+
+query GetUser($getUserId: ID) {
+  getUser(id: $getUserId) {
+    ...UserFields
+  }
+}
+
+mutation CreateUser($input: UserCreateInput!) {
+  createUser(input: $input) {
+    ...UserFields
+  }
+}
+
+mutation UpdateUser($input: UserUpdateInput!) {
+  updateUser(input: $input) {
+    ...UserFields
+  }
+}
