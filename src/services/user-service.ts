@@ -8,7 +8,7 @@ export const createUser = async (input: UserCreateInput): Promise<User> => {
     if (used) {
       return used;
     } else {
-      const result = await prisma.user.create({ data: input });
+      const result = await prisma.user.create({ data: input});
       console.log({ input, result });
       return result;
     }
