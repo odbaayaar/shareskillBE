@@ -4,8 +4,14 @@ import { Prisma } from "@prisma/client";
 
 export const createUser = async (input: UserCreateInput): Promise<User> => {
   try {
-    const result = await prisma.user.create({ data: input });
-    return result;
+    const used = await prisma.user.findUnique({ where: { emailAddress: input.emailAddress } });
+    if (used) {
+      return used;
+    } else {
+      const result = await prisma.user.create({ data: input });
+      console.log({ input, result });
+      return result;
+    }
   } catch (error) {
     throw error;
   }
