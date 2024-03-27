@@ -22,12 +22,18 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
+  deleteUser: Scalars['String']['output'];
   updateUser: User;
 };
 
 
 export type MutationCreateUserArgs = {
   input: UserCreateInput;
+};
+
+
+export type MutationDeleteUserArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -54,6 +60,7 @@ export type User = {
   lastName: Scalars['String']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   role: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type UserCreateInput = {
@@ -61,6 +68,7 @@ export type UserCreateInput = {
   firstName: Scalars['String']['input'];
   id: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type UserUpdateInput = {
@@ -69,7 +77,8 @@ export type UserUpdateInput = {
   id: Scalars['String']['input'];
   lastName?: InputMaybe<Scalars['String']['input']>;
   profilePicture?: InputMaybe<Scalars['String']['input']>;
-  role: Scalars['String']['input'];
+  role?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -167,6 +176,7 @@ export type ResolversParentTypes = {
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  deleteUser?: Resolver<ResolversTypes['String'], ParentType, ContextType, Partial<MutationDeleteUserArgs>>;
   updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
 };
 
@@ -182,6 +192,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   profilePicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -192,33 +203,33 @@ export type Resolvers<ContextType = any> = {
 };
 
 
-export type UserFieldsFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null };
+export type UserFieldsFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null } | null> };
+export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } | null> };
 
 export type GetUserQueryVariables = Exact<{
   getUserId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null } };
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } };
 
 export type CreateUserMutationVariables = Exact<{
   input: UserCreateInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } };
 
 export type UpdateUserMutationVariables = Exact<{
   input: UserUpdateInput;
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } };
 
 export const UserFieldsFragmentDoc = gql`
     fragment UserFields on User {
@@ -227,6 +238,7 @@ export const UserFieldsFragmentDoc = gql`
   lastName
   emailAddress
   profilePicture
+  role
 }
     `;
 export const GetAllUsersDocument = gql`

@@ -35,11 +35,11 @@ export const getUser = async (id: string): Promise<User | null> => {
   }
 };
 
-export const updateUser = async (input: Prisma.UserUpdateInput & { id: string }): Promise<User> => {
+export const updateUser = async (input: Prisma.UserUpdateInput & { id: string }): Promise<any> => {
   try {
     const result = await prisma.user.update({
       where: { id: input.id },
-      data: { firstName: input.firstName, lastName: input.lastName, emailAddress: input.emailAddress, profilePicture: input.profilePicture, role: input.role },
+      data: { firstName: input.firstName, lastName: input.lastName, emailAddress: input.emailAddress, profilePicture: input.profilePicture, role: input.role, username: input.username },
     });
     return result;
   } catch (error) {
