@@ -4,6 +4,7 @@ fragment UserFields on User {
   lastName
   emailAddress
   profilePicture
+  role
 }
 
 query GetAllUsers {
@@ -27,5 +28,11 @@ mutation CreateUser($input: UserCreateInput!) {
 mutation UpdateUser($input: UserUpdateInput!) {
   updateUser(input: $input) {
     ...UserFields
+  }
+}
+
+mutation DeleteUser($deletedUserId: ID) {
+  deleteUser(id: $deletedUserId) {
+    id
   }
 }

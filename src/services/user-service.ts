@@ -8,7 +8,7 @@ export const createUser = async (input: UserCreateInput): Promise<User> => {
     if (used) {
       return used;
     } else {
-      const result = await prisma.user.create({ data: input});
+      const result = await prisma.user.create({ data: input });
       console.log({ input, result });
       return result;
     }
@@ -44,5 +44,17 @@ export const updateUser = async (input: Prisma.UserUpdateInput & { id: string })
     return result;
   } catch (error) {
     throw error;
+  }
+};
+
+export const deleteUser = async (id: string): Promise<any> => {
+  const msg = "succesfully deleted";
+  try {
+    const user = await prisma.user.delete({
+      where: { id: id },
+    });
+    if (user) return msg;
+  } catch (err) {
+    throw err;
   }
 };
