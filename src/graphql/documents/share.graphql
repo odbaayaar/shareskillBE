@@ -30,9 +30,3 @@ mutation UpdateUser($input: UserUpdateInput!) {
     ...UserFields
   }
 }
-
-mutation DeleteUser($deletedUserId: ID) {
-  deleteUser(id: $deletedUserId) {
-    id
-  }
-}
