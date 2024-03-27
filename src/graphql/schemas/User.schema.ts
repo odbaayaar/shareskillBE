@@ -38,5 +38,6 @@ export const userTypeDefs = gql`
     createUser(input: UserCreateInput!): User!
     updateUser(input: UserUpdateInput!): User!
     deleteUser(id: ID): String!
+    deleteAll: String!
   }
 `;

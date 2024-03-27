@@ -63,7 +63,7 @@ export const deleteAll = async (): Promise<any> => {
   const msg = "succesfully deleted everything";
   try {
     const users = await prisma.user.deleteMany();
-    return msg;
+    if (users) return msg;
   } catch (error) {
     throw error;
   }
