@@ -58,3 +58,13 @@ export const deleteUser = async (id: string): Promise<any> => {
     throw err;
   }
 };
+
+export const deleteAll = async (): Promise<any> => {
+  const msg = "succesfully deleted everything";
+  try {
+    const users = await prisma.user.deleteMany();
+    return msg;
+  } catch (error) {
+    throw error;
+  }
+};
