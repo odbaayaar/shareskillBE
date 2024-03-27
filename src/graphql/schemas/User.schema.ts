@@ -7,7 +7,7 @@ export const userTypeDefs = gql`
     lastName: String!
     emailAddress: String!
     profilePicture: String
-    role: Number!
+    role: String!
   }
 
   input UserCreateInput {
@@ -23,7 +23,7 @@ export const userTypeDefs = gql`
     lastName: String
     emailAddress: String
     profilePicture: String
-    role: Number
+    role: String!
   }
 
   type Query {

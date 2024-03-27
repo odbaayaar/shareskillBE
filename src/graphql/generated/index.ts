@@ -53,6 +53,7 @@ export type User = {
   id: Scalars['String']['output'];
   lastName: Scalars['String']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
+  role: Scalars['String']['output'];
 };
 
 export type UserCreateInput = {
@@ -68,6 +69,7 @@ export type UserUpdateInput = {
   id: Scalars['String']['input'];
   lastName?: InputMaybe<Scalars['String']['input']>;
   profilePicture?: InputMaybe<Scalars['String']['input']>;
+  role: Scalars['String']['input'];
 };
 
 
@@ -179,6 +181,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   profilePicture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
