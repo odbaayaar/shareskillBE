@@ -39,7 +39,7 @@ export const updateUser = async (input: Prisma.UserUpdateInput & { id: string })
   try {
     const result = await prisma.user.update({
       where: { id: input.id },
-      data: { firstName: input.firstName, lastName: input.lastName, emailAddress: input.emailAddress, profilePicture: input.profilePicture },
+      data: { firstName: input.firstName, lastName: input.lastName, emailAddress: input.emailAddress, profilePicture: input.profilePicture, role: input.role },
     });
     return result;
   } catch (error) {

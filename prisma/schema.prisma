@@ -1,5 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// 101 - user, 102 - teacher, 103 - admin
 
 generator client {
   provider = "prisma-client-js"
@@ -16,5 +17,6 @@ model User {
   lastName       String
   emailAddress   String @unique
   profilePicture String @default("https://t3.ftcdn.net/jpg/05/71/08/24/360_F_571082432_Qq45LQGlZsuby0ZGbrd79aUTSQikgcgc.jpg")
+  role           Int @default(101)
 }
 
