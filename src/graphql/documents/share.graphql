@@ -13,8 +13,8 @@ query GetAllUsers {
   }
 }
 
-query GetUser($getUserId: ID) {
-  getUser(id: $getUserId) {
+query GetUser($getUsername: String) {
+  getUser(username: $getUsername) {
     ...UserFields
   }
 }

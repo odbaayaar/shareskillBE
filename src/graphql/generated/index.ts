@@ -50,7 +50,7 @@ export type Query = {
 
 
 export type QueryGetUserArgs = {
-  id?: InputMaybe<Scalars['ID']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -213,7 +213,7 @@ export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } | null> };
 
 export type GetUserQueryVariables = Exact<{
-  getUserId?: InputMaybe<Scalars['ID']['input']>;
+  getUsername?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -283,8 +283,8 @@ export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLaz
 export type GetAllUsersSuspenseQueryHookResult = ReturnType<typeof useGetAllUsersSuspenseQuery>;
 export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const GetUserDocument = gql`
-    query GetUser($getUserId: ID) {
-  getUser(id: $getUserId) {
+    query GetUser($getUsername: String) {
+  getUser(username: $getUsername) {
     ...UserFields
   }
 }
@@ -302,7 +302,7 @@ export const GetUserDocument = gql`
  * @example
  * const { data, loading, error } = useGetUserQuery({
  *   variables: {
- *      getUserId: // value for 'getUserId'
+ *      getUsername: // value for 'getUsername'
  *   },
  * });
  */
