@@ -28,7 +28,14 @@ export const getUsers = async (): Promise<User[]> => {
 
 export const getUser = async (username: string): Promise<User> => {
   try {
-    const result = await prisma.user.findUnique({ where: { username: username } });
+    const result = await prisma.user.findFirst({
+      where: {
+        username: {
+          equals: username,
+          mode: "insensitive",
+        },
+      },
+    });
     return result!;
   } catch (error) {
     throw error;

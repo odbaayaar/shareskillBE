@@ -15,7 +15,7 @@ model User {
   id             String @id @default("thisisanid") @map("_id")
   firstName      String
   lastName       String
-  username       String @unique
+  username       String
   emailAddress   String @unique
   profilePicture String @default("https://t3.ftcdn.net/jpg/05/71/08/24/360_F_571082432_Qq45LQGlZsuby0ZGbrd79aUTSQikgcgc.jpg")
   role           String @default("101")
