@@ -25,7 +25,7 @@ model User {
 
 model Video {
   id          String     @id @default("thisisanid") @map("_id")
-  creator     User       @relation(fields: [creatorId], references: [id])
+  creator     User       @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId   String
   file        String
   thumbnail   String
@@ -39,7 +39,7 @@ model Video {
 
 model Folder {
   id        String   @id @default("thisisanid") @map("_id")
-  creator   User     @relation(fields: [creatorId], references: [id])
+  creator   User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   title     String
   videos    Video[]
   videoIds  String[]
