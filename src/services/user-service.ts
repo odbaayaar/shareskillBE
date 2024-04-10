@@ -8,7 +8,7 @@ export const createUser = async (input: UserCreateInput): Promise<User> => {
     if (used) {
       return used;
     } else {
-      const result = await prisma.user.create({ data: input });
+      const result = await prisma.user.create({ data: input, include: { folders: true, uploads: true } });
       console.log({ input, result });
       return result;
     }
@@ -19,7 +19,7 @@ export const createUser = async (input: UserCreateInput): Promise<User> => {
 
 export const getUsers = async (): Promise<User[]> => {
   try {
-    const result = await prisma.user.findMany();
+    const result = await prisma.user.findMany({ include: { folders: true, uploads: true } });
     return result;
   } catch (error) {
     throw error;
@@ -34,6 +34,10 @@ export const getUser = async (username: string): Promise<User> => {
           equals: username,
           mode: "insensitive",
         },
+      },
+      include: {
+        folders: true,
+        uploads: true,
       },
     });
     return result!;

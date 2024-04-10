@@ -12,11 +12,43 @@ datasource db {
 }
 
 model User {
-  id             String @id @default("thisisanid") @map("_id")
+  id             String   @id @default("thisisanid") @map("_id")
   firstName      String
   lastName       String
   username       String
-  emailAddress   String @unique
-  profilePicture String @default("https://t3.ftcdn.net/jpg/05/71/08/24/360_F_571082432_Qq45LQGlZsuby0ZGbrd79aUTSQikgcgc.jpg")
-  role           String @default("101")
+  emailAddress   String   @unique
+  profilePicture String   @default("https://t3.ftcdn.net/jpg/05/71/08/24/360_F_571082432_Qq45LQGlZsuby0ZGbrd79aUTSQikgcgc.jpg")
+  role           String   @default("101")
+  folders        Folder[]
+  uploads        Video[]
+}
+
+model Video {
+  id          String     @id @default("thisisanid") @map("_id")
+  creator     User       @relation(fields: [creatorId], references: [id])
+  creatorId   String
+  file        String
+  thumbnail   String
+  categories  Category[] @relation(fields: [categoryIds], references: [id])
+  categoryIds String[]
+  title       String
+  description String
+  folder      Folder?    @relation(fields: [folderId], references: [id])
+  folderId    String?
+}
+
+model Folder {
+  id        String   @id @default("thisisanid") @map("_id")
+  creator   User     @relation(fields: [creatorId], references: [id])
+  title     String
+  videos    Video[]
+  videoIds  String[]
+  creatorId String
+}
+
+model Category {
+  id       String   @id @default("thisisanid") @map("_id")
+  type     String
+  videos   Video[]  @relation(fields: [videoIds], references: [id])
+  videoIds String[]
 }

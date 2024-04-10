@@ -1,3 +1,41 @@
+# fragment CategoryFields on Category {
+#   id
+#   type
+#   videos
+#   videoIds
+# }
+fragment VideoFields on Video {
+  id
+  creator {
+    ...UserSummary
+  }
+  creatorId
+  file
+  thumbnail
+  categories
+  cateogryIds
+  title
+  description
+  folder
+}
+
+fragment FolderFields on Folder {
+  id
+  title
+  videos {
+    ...VideoFields
+  }
+  creator
+  creatorId
+}
+
+fragment UserSummary on User {
+  id
+  firstName
+  lastName
+  emailAddress
+}
+
 fragment UserFields on User {
   id
   firstName
@@ -5,6 +43,36 @@ fragment UserFields on User {
   emailAddress
   profilePicture
   role
+  username
+  uploads {
+    id
+    creator {
+      ...UserSummary
+    }
+    creatorId
+    file
+    thumbnail
+    categories {
+      ...
+    }
+    categoryIds
+    title
+    description
+    folder {
+      ...
+    }
+  }
+  folders {
+    id
+    title
+    videos {
+      ...
+    }
+    creator {
+      ...UserSummary
+    }
+    creatorId
+  }
 }
 
 query GetAllUsers {

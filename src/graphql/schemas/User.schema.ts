@@ -9,6 +9,8 @@ export const userTypeDefs = gql`
     profilePicture: String
     role: String!
     username: String!
+    # uploads: [Video]!
+    # folders: [Folder]!
   }
 
   input UserCreateInput {

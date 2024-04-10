@@ -1,6 +1,4 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -9,7 +7,6 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
-const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -19,12 +16,52 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  videoIds?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  videos?: Maybe<Array<Maybe<Video>>>;
+};
+
+export type CreateCategoryInput = {
+  id: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type Folder = {
+  __typename?: 'Folder';
+  creatorId: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  videos?: Maybe<Array<Maybe<Video>>>;
+};
+
+export type FolderCreateInput = {
+  creatorId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createCategory: Category;
+  createFolder: Folder;
   createUser: User;
   deleteAll: Scalars['String']['output'];
   deleteUser: Scalars['String']['output'];
   updateUser: User;
+  uploadVideo: Video;
+};
+
+
+export type MutationCreateCategoryArgs = {
+  input: CreateCategoryInput;
+};
+
+
+export type MutationCreateFolderArgs = {
+  input: FolderCreateInput;
 };
 
 
@@ -42,10 +79,24 @@ export type MutationUpdateUserArgs = {
   input: UserUpdateInput;
 };
 
+
+export type MutationUploadVideoArgs = {
+  input: VideoCreateInput;
+};
+
 export type Query = {
   __typename?: 'Query';
+  getAllCategories: Array<Maybe<Category>>;
+  getAllFolders: Array<Maybe<Folder>>;
   getAllUsers: Array<Maybe<User>>;
+  getAllVideos: Array<Maybe<Video>>;
+  getAllVideosByUserId: Array<Maybe<Video>>;
   getUser: User;
+};
+
+
+export type QueryGetAllVideosByUserIdArgs = {
+  creatorId: Scalars['ID']['input'];
 };
 
 
@@ -80,6 +131,31 @@ export type UserUpdateInput = {
   profilePicture?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Video = {
+  __typename?: 'Video';
+  categories: Array<Maybe<Category>>;
+  categoryIds: Array<Maybe<Scalars['String']['output']>>;
+  creator: User;
+  creatorId: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  file: Scalars['String']['output'];
+  folder?: Maybe<Folder>;
+  folderId?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  thumbnail: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
+export type VideoCreateInput = {
+  categoryIds: Array<Scalars['String']['input']>;
+  creatorId: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  file: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  thumbnail: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 
@@ -154,6 +230,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Category: ResolverTypeWrapper<Category>;
+  CreateCategoryInput: CreateCategoryInput;
+  Folder: ResolverTypeWrapper<Folder>;
+  FolderCreateInput: FolderCreateInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -161,11 +241,17 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserCreateInput: UserCreateInput;
   UserUpdateInput: UserUpdateInput;
+  Video: ResolverTypeWrapper<Video>;
+  VideoCreateInput: VideoCreateInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  Category: Category;
+  CreateCategoryInput: CreateCategoryInput;
+  Folder: Folder;
+  FolderCreateInput: FolderCreateInput;
   ID: Scalars['ID']['output'];
   Mutation: {};
   Query: {};
@@ -173,17 +259,42 @@ export type ResolversParentTypes = {
   User: User;
   UserCreateInput: UserCreateInput;
   UserUpdateInput: UserUpdateInput;
+  Video: Video;
+  VideoCreateInput: VideoCreateInput;
+};
+
+export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoIds?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FolderResolvers<ContextType = any, ParentType extends ResolversParentTypes['Folder'] = ResolversParentTypes['Folder']> = {
+  creatorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'input'>>;
+  createFolder?: Resolver<ResolversTypes['Folder'], ParentType, ContextType, RequireFields<MutationCreateFolderArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteAll?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   deleteUser?: Resolver<ResolversTypes['String'], ParentType, ContextType, Partial<MutationDeleteUserArgs>>;
   updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
+  uploadVideo?: Resolver<ResolversTypes['Video'], ParentType, ContextType, RequireFields<MutationUploadVideoArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getAllCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
+  getAllFolders?: Resolver<Array<Maybe<ResolversTypes['Folder']>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  getAllVideos?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType>;
+  getAllVideosByUserId?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType, RequireFields<QueryGetAllVideosByUserIdArgs, 'creatorId'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryGetUserArgs>>;
 };
 
@@ -198,193 +309,27 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type VideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Video'] = ResolversParentTypes['Video']> = {
+  categories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
+  categoryIds?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
+  creator?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  creatorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  file?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  folder?: Resolver<Maybe<ResolversTypes['Folder']>, ParentType, ContextType>;
+  folderId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  thumbnail?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
+  Category?: CategoryResolvers<ContextType>;
+  Folder?: FolderResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  Video?: VideoResolvers<ContextType>;
 };
 
-
-export type UserFieldsFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string };
-
-export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } | null> };
-
-export type GetUserQueryVariables = Exact<{
-  getUsername?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } };
-
-export type CreateUserMutationVariables = Exact<{
-  input: UserCreateInput;
-}>;
-
-
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } };
-
-export type UpdateUserMutationVariables = Exact<{
-  input: UserUpdateInput;
-}>;
-
-
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string } };
-
-export const UserFieldsFragmentDoc = gql`
-    fragment UserFields on User {
-  id
-  firstName
-  lastName
-  emailAddress
-  profilePicture
-  role
-}
-    `;
-export const GetAllUsersDocument = gql`
-    query GetAllUsers {
-  getAllUsers {
-    ...UserFields
-  }
-}
-    ${UserFieldsFragmentDoc}`;
-
-/**
- * __useGetAllUsersQuery__
- *
- * To run a query within a React component, call `useGetAllUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllUsersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
-      }
-export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
-        }
-export function useGetAllUsersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
-        }
-export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
-export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
-export type GetAllUsersSuspenseQueryHookResult = ReturnType<typeof useGetAllUsersSuspenseQuery>;
-export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
-export const GetUserDocument = gql`
-    query GetUser($getUsername: String) {
-  getUser(username: $getUsername) {
-    ...UserFields
-  }
-}
-    ${UserFieldsFragmentDoc}`;
-
-/**
- * __useGetUserQuery__
- *
- * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserQuery({
- *   variables: {
- *      getUsername: // value for 'getUsername'
- *   },
- * });
- */
-export function useGetUserQuery(baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
-      }
-export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
-        }
-export function useGetUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
-        }
-export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
-export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
-export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
-export const CreateUserDocument = gql`
-    mutation CreateUser($input: UserCreateInput!) {
-  createUser(input: $input) {
-    ...UserFields
-  }
-}
-    ${UserFieldsFragmentDoc}`;
-export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
-
-/**
- * __useCreateUserMutation__
- *
- * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
-      }
-export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
-export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
-export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
-export const UpdateUserDocument = gql`
-    mutation UpdateUser($input: UserUpdateInput!) {
-  updateUser(input: $input) {
-    ...UserFields
-  }
-}
-    ${UserFieldsFragmentDoc}`;
-export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
-
-/**
- * __useUpdateUserMutation__
- *
- * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
-      }
-export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
