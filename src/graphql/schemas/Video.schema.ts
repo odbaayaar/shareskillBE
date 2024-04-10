@@ -3,8 +3,8 @@ import gql from "graphql-tag";
 export const videoTypeDefs = gql`
   type Video {
     id: String!
-    creator: User!
-    creatorId: String!
+    creator: User
+    creatorId: String
     file: String!
     thumbnail: String!
     categories: [Category]!
@@ -26,7 +26,7 @@ export const videoTypeDefs = gql`
   }
 
   type Query {
-    getAllVideos: [Video]!
+    getAllVideos: [Video]
     getAllVideosByUserId(creatorId: ID!): [Video]!
   }
 

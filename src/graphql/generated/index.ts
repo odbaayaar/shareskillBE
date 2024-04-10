@@ -89,7 +89,7 @@ export type Query = {
   getAllCategories: Array<Maybe<Category>>;
   getAllFolders: Array<Maybe<Folder>>;
   getAllUsers: Array<Maybe<User>>;
-  getAllVideos: Array<Maybe<Video>>;
+  getAllVideos?: Maybe<Array<Maybe<Video>>>;
   getAllVideosByUserId: Array<Maybe<Video>>;
   getUser: User;
 };
@@ -137,8 +137,8 @@ export type Video = {
   __typename?: 'Video';
   categories: Array<Maybe<Category>>;
   categoryIds: Array<Maybe<Scalars['String']['output']>>;
-  creator: User;
-  creatorId: Scalars['String']['output'];
+  creator?: Maybe<User>;
+  creatorId?: Maybe<Scalars['String']['output']>;
   description: Scalars['String']['output'];
   file: Scalars['String']['output'];
   folder?: Maybe<Folder>;
@@ -293,7 +293,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAllCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
   getAllFolders?: Resolver<Array<Maybe<ResolversTypes['Folder']>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
-  getAllVideos?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType>;
+  getAllVideos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
   getAllVideosByUserId?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType, RequireFields<QueryGetAllVideosByUserIdArgs, 'creatorId'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryGetUserArgs>>;
 };
@@ -312,8 +312,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type VideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Video'] = ResolversParentTypes['Video']> = {
   categories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
   categoryIds?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
-  creator?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  creatorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  creator?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  creatorId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   file?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   folder?: Resolver<Maybe<ResolversTypes['Folder']>, ParentType, ContextType>;
