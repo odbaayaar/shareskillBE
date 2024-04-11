@@ -126,10 +126,12 @@ export type UserCreateInput = {
 export type UserUpdateInput = {
   emailAddress?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
+  folders?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   lastName?: InputMaybe<Scalars['String']['input']>;
   profilePicture?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
+  uploads?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
