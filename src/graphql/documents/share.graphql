@@ -1,40 +1,58 @@
 # fragment CategoryFields on Category {
 #   id
 #   type
+#   videos {
+#     ...VideoInCategoryFields
+#   }
+#   videoIds
+# }
+# fragment VideoFields on Video {
+#   id
+#   creator {
+#     ...UserSummary
+#   }
+#   creatorId
+#   file
+#   thumbnail
+#   categories {
+#     ...CategoryInVideoFields
+#   }
+#   cateogoryIds
+#   title
+#   description
+#   folder {
+
+#   }
+#   folderId
+# }
+
+# fragment FolderFields on Folder {
+#   id
+#   title
+#   videos {
+#     ...VideoFields
+#   }
+#   videoIds
+#   creator
+#   creatorId
+# }
+
+# fragment FolderSummary on Folder {
+#   id
+#   title
 #   videos
 #   videoIds
 # }
-fragment VideoFields on Video {
-  id
-  creator {
-    ...UserSummary
-  }
-  creatorId
-  file
-  thumbnail
-  categories
-  cateogryIds
-  title
-  description
-  folder
-}
 
-fragment FolderFields on Folder {
-  id
-  title
-  videos {
-    ...VideoFields
-  }
-  creator
-  creatorId
-}
-
-fragment UserSummary on User {
-  id
-  firstName
-  lastName
-  emailAddress
-}
+# fragment UserSummary on User {
+#   id
+#   firstName
+#   lastName
+#   emailAddress
+#   profilePicture
+#   role
+#   username
+# }
 
 fragment UserFields on User {
   id
@@ -44,35 +62,6 @@ fragment UserFields on User {
   profilePicture
   role
   username
-  uploads {
-    id
-    creator {
-      ...UserSummary
-    }
-    creatorId
-    file
-    thumbnail
-    categories {
-      ...
-    }
-    categoryIds
-    title
-    description
-    folder {
-      ...
-    }
-  }
-  folders {
-    id
-    title
-    videos {
-      ...
-    }
-    creator {
-      ...UserSummary
-    }
-    creatorId
-  }
 }
 
 query GetAllUsers {

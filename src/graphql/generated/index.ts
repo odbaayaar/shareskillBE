@@ -333,3 +333,31 @@ export type Resolvers<ContextType = any> = {
   Video?: VideoResolvers<ContextType>;
 };
 
+
+export type UserFieldsFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string, username: string };
+
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string, username: string } | null> };
+
+export type GetUserQueryVariables = Exact<{
+  getUsername?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string, username: string } };
+
+export type CreateUserMutationVariables = Exact<{
+  input: UserCreateInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string, username: string } };
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UserUpdateInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName: string, lastName: string, emailAddress: string, profilePicture?: string | null, role: string, username: string } };
