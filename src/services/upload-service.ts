@@ -1,12 +1,12 @@
 import { prisma } from "@/utils/prisma";
 import { Video, VideoCreateInput } from "@/graphql/generated";
-import { connect } from "http2";
-import { Prisma } from "@prisma/client";
 
 export const uploadVideo = async (input: VideoCreateInput): Promise<Video> => {
   try {
+    console.log(input);
     const result = await prisma.video.create({
       data: {
+        id: input.id,
         description: input.description,
         title: input.title,
         creator: {
@@ -24,9 +24,11 @@ export const uploadVideo = async (input: VideoCreateInput): Promise<Video> => {
       },
       include: { folder: true, categories: true },
     });
+    console.log(result);
     return result as Video;
   } catch (err) {
     throw err;
+    console.log(err);
   }
 };
 

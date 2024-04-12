@@ -24,8 +24,8 @@ model User {
 }
 
 model Video {
-  id          String     @id @default("thisisanid") @map("_id")
-  creator     User?       @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  id          String     @id @default("thisisaniad") @map("_id")
+  creator     User?      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId   String?
   file        String
   thumbnail   String
